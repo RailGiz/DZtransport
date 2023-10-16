@@ -61,8 +61,8 @@ class TransportAgency(val transports: List<Transport>) {
             expenses += transport.costPerWeight * order.weight / 2  // предположим, что расходы составляют половину доходов
 
             // Учет погодных условий и аварийности
-            if (transport is AirTransport && (order.from.weather == Weather.Bad || order.to.weather == Weather.Bad)) {
-                expenses += transport.costPerWeight * order.weight  // дополнительные расходы из-за плохой погоды
+            if (transport !is AirTransport && (order.from.weather == Weather.Bad || order.to.weather == Weather.Bad)) {
+                expenses += transport.costPerWeight * order.weight * 1.2  // дополнительные расходы из-за плохой погоды
                 println("Плохая погода увеличивает расходы")
             }
 
@@ -83,8 +83,8 @@ class TransportAgency(val transports: List<Transport>) {
 
 fun main() {
     // Создание городов
-    val moscow = City("Москва", CitySize.Large, Weather.Good)
-    val spb = City("Санкт-Петербург", CitySize.Large, Weather.Good)
+    val moscow = City("Москва", CitySize.Large, Weather.Bad)
+    val spb = City("Санкт-Петербург", CitySize.Large, Weather.Bad)
     val kazan = City("Казань", CitySize.Medium, Weather.Good)
 
     // Создание транспорта
